@@ -1,0 +1,22 @@
+{
+  "name": "vue-todo-list",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc && vite build",
+    "preview": "vite preview",
+    "deploy": "npm run build && gh-pages -d dist"
+  },
+  "dependencies": {
+    "@sentry/vue": "^10.45.0",
+    "vue": "^3.4.21"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "@vitejs/plugin-vue": "^5.0.4",
+    "typescript": "^5.9.3",
+    "vite": "^5.2.0",
+    "vue-tsc": "^3.2.6"
+  }
+}
