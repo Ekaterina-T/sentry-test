@@ -29,6 +29,12 @@
 
 <script setup lang="ts">
 // This is the About page component
+
+try {
+    throw new Error("Test catched error in AboutPage.vue");
+} catch (error) {
+    console.log("Caught an error in AboutPage.vue:", error);
+}
 </script>
 
 <style scoped>
