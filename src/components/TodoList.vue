@@ -54,11 +54,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useTodoStore } from '../stores/useTodoStore'
 import * as Sentry from '@sentry/vue'
 
-Sentry.logger.info("List created", { orderId: "order_456" });
+onMounted(() => {
+  // Test all log levels
+  Sentry.logger.info("List created", { orderId: "order_456" });
+  Sentry.logger.warn("This is a warning test", { testType: "warning" });
+  Sentry.logger.error("This is an error test", { testType: "error" });
+
+  console.log("Sentry DSN configured:", !!import.meta.env.VITE_SENTRY_DSN);
+});
 
 const todoStore = useTodoStore()
 const newTodo = ref<string>('')
