@@ -10,7 +10,7 @@ const app = createApp(App)
 const pinia = createPinia()
 pinia.use(createSentryPiniaPlugin());
 
-Sentry.init({
+const sentryInit = Sentry.init({
   app,
   dsn: import.meta.env.VITE_SENTRY_DSN,
   sendDefaultPii: false,
@@ -32,6 +32,8 @@ Sentry.init({
 Sentry.getGlobalScope().setAttributes({
   service: "et-to-do-list-app",
 });
+
+console.log("Sentry initialized:", sentryInit)
 
 
 app.use(pinia)
