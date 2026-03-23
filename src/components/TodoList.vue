@@ -77,6 +77,8 @@ const addTodo = (): void => {
     newTodo.value = ''
 
     Sentry.logger.info("New Item Added", { orderId: "order_456" });
+    console.warn("A new item was added to the list");
+    console.error("This is a console error test for adding a new item");
   } else {
     Sentry.logger.error("Todo text cannot be empty", { orderId: "order_456" });
     throw new Error('Todo text cannot be empty')

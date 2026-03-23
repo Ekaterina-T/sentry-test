@@ -16,7 +16,8 @@ Sentry.init({
   sendDefaultPii: false,
   integrations: [
     Sentry.browserTracingIntegration({ router }),
-    Sentry.replayIntegration()
+    Sentry.replayIntegration(),
+    Sentry.consoleLoggingIntegration({ levels: ['error', 'warn'] }),
   ],
   tracesSampleRate: 1.0,
   // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
@@ -31,7 +32,6 @@ Sentry.init({
 Sentry.getGlobalScope().setAttributes({
   service: "et-to-do-list-app",
 });
-
 
 
 app.use(pinia)
