@@ -1,5 +1,6 @@
 <template>
   <div class="todo-container">
+    <h1>My To-Do List</h1>
     <div class="input-section">
       <input
         v-model="newTodo"
@@ -11,13 +12,13 @@
       <button @click="addTodo" class="add-button">Add</button>
     </div>
 
-    <div v-if="todos.length === 0" class="empty-state">
+    <div v-if="todoStore.totalTasks === 0" class="empty-state">
       <p>No tasks yet. Add one above!</p>
     </div>
 
     <ul v-else class="todo-list">
       <li
-        v-for="todo in todos"
+        v-for="todo in todoStore.todos"
         :key="todo.id"
         :class="{ completed: todo.completed }"
         class="todo-item"
@@ -25,24 +26,25 @@
         <div class="todo-content">
           <input
             type="checkbox"
-            v-model="todo.completed"
+            :checked="todo.completed"
+            @change="todoStore.toggleTodo(todo.id)"
             class="todo-checkbox"
           />
           <span class="todo-text">{{ todo.text }}</span>
         </div>
-        <button @click="removeTodo(todo.id)" class="delete-button">
+        <button @click="todoStore.removeTodo(todo.id)" class="delete-button">
           Delete
         </button>
       </li>
     </ul>
 
-    <div v-if="todos.length > 0" class="stats">
+    <div v-if="todoStore.totalTasks > 0" class="stats">
       <p>
-        <strong>{{ remainingTasks }}</strong> of <strong>{{ todos.length }}</strong> tasks remaining
+        <strong>{{ todoStore.remainingTasks }}</strong> of <strong>{{ todoStore.totalTasks }}</strong> tasks remaining
       </p>
       <button
-        v-if="completedTasks > 0"
-        @click="clearCompleted"
+        v-if="todoStore.completedTasks > 0"
+        @click="todoStore.clearCompleted"
         class="clear-button"
       >
         Clear Completed
@@ -52,47 +54,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
+import { useTodoStore } from '../stores/useTodoStore'
 
-interface Todo {
-  id: number
-  text: string
-  completed: boolean
-}
-
+const todoStore = useTodoStore()
 const newTodo = ref<string>('')
-const todos = ref<Todo[]>([])
-let nextId = 1
 
 const addTodo = (): void => {
   const text = newTodo.value.trim()
   if (text) {
-    todos.value.push({
-      id: nextId++,
-      text,
-      completed: false
-    })
+    todoStore.addTodo(text)
     newTodo.value = ''
   } else {
     throw new Error('Todo text cannot be empty')
   }
 }
-
-const removeTodo = (id: number): void => {
-  todos.value = todos.value.filter(todo => todo.id !== id)
-}
-
-const clearCompleted = (): void => {
-  todos.value = todos.value.filter(todo => !todo.completed)
-}
-
-const remainingTasks = computed<number>(() => {
-  return todos.value.filter(todo => !todo.completed).length
-})
-
-const completedTasks = computed<number>(() => {
-  return todos.value.filter(todo => todo.completed).length
-})
 </script>
 
 <style scoped>
@@ -101,6 +77,13 @@ const completedTasks = computed<number>(() => {
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   padding: 30px;
+}
+
+.todo-container h1 {
+  text-align: center;
+  color: #42b983;
+  margin-top: 0;
+  margin-bottom: 30px;
 }
 
 .input-section {

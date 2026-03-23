@@ -1,18 +1,23 @@
 import { createApp } from 'vue'
+import { createPinia } from 'pinia'
 import App from './App.vue'
 import './style.css'
 import * as Sentry from "@sentry/vue";
+import router from './router'
+import { createSentryPiniaPlugin } from "@sentry/vue";
 
 const app = createApp(App)
+const pinia = createPinia()
+pinia.use(createSentryPiniaPlugin());
 
 Sentry.init({
   app,
   dsn: import.meta.env.VITE_SENTRY_DSN,
   // Setting this option to true will send default PII data to Sentry.
   // For example, automatic IP address collection on events
-  sendDefaultPii: true,
+  sendDefaultPii: false,
   integrations: [
-    // Sentry.browserTracingIntegration({ router }),
+    Sentry.browserTracingIntegration({ router }),
     Sentry.replayIntegration()
   ],
   // Tracing
@@ -26,4 +31,7 @@ Sentry.init({
   enableLogs: true
 });
 
+
+app.use(pinia)
+app.use(router)
 app.mount('#app')

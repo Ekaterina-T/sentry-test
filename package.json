@@ -9,8 +9,11 @@
     "deploy": "npm run build && gh-pages -d dist"
   },
   "dependencies": {
+    "@sentry/vite-plugin": "^5.1.1",
     "@sentry/vue": "^10.45.0",
-    "vue": "^3.4.21"
+    "pinia": "^3.0.4",
+    "vue": "^3.4.21",
+    "vue-router": "^4.6.4"
   },
   "devDependencies": {
     "@types/node": "^25.5.0",
