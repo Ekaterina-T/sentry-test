@@ -28,12 +28,18 @@
 </template>
 
 <script setup lang="ts">
-// This is the About page component
+import * as Sentry from '@sentry/vue'
 
 try {
-    throw new Error("Test catched error in AboutPage.vue");
+    throw new Error("Test catched error in AboutPage.vue - not sent to Sentry");
 } catch (error) {
     console.log("Caught an error in AboutPage.vue:", error);
+}
+
+try {
+    throw new Error("Test catched error in AboutPage.vue - sent to Sentry");
+} catch (error) {
+    Sentry.captureException(error);
 }
 </script>
 
