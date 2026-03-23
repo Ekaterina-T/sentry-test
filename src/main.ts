@@ -22,10 +22,8 @@ const sentryInit = Sentry.init({
   tracesSampleRate: 1.0,
   // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
 //   tracePropagationTargets: ["localhost", /^https:\/\/yourserver\.io\/api/],
-  // Session Replay
   replaysSessionSampleRate: 0.1,
   replaysOnErrorSampleRate: 1.0,
-  // Logs
   enableLogs: true
 });
 
