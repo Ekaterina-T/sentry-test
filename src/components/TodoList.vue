@@ -60,9 +60,9 @@ import * as Sentry from '@sentry/vue'
 
 onMounted(() => {
   // Test all log levels
-  Sentry.logger.info("List created", { orderId: "order_456" });
-  Sentry.logger.warn("This is a warning test", { testType: "warning" });
-  Sentry.logger.error("This is an error test", { testType: "error" });
+  Sentry.logger.info("Logger info: List created", { orderId: "order_456" });
+  Sentry.logger.warn("Logger warn: This is a warning test", { testType: "warning" });
+  Sentry.logger.error("Logger error: This is an error test", { testType: "error" });
 
   console.log("Sentry DSN configured:", !!import.meta.env.VITE_SENTRY_DSN);
 });
@@ -76,11 +76,11 @@ const addTodo = (): void => {
     todoStore.addTodo(text)
     newTodo.value = ''
 
-    Sentry.logger.info("New Item Added", { orderId: "order_456" });
-    console.warn("A new item was added to the list");
-    console.error("This is a console error test for adding a new item");
+    Sentry.logger.info("Logger info: New Item Added", { orderId: "order_456" });
+    console.warn("console.warn warn: A new item was added to the list");
+    console.error("console.error error: This is a console error test for adding a new item");
   } else {
-    Sentry.logger.error("Todo text cannot be empty - logger", { orderId: "order_456" });
+    Sentry.logger.error("Logger error: Todo text cannot be empty", { orderId: "order_456" });
     throw new Error('Todo text cannot be empty')
   }
 }

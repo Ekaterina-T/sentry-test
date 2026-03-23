@@ -33,7 +33,7 @@ import * as Sentry from '@sentry/vue'
 try {
     throw new Error("Test catched error in AboutPage.vue - not sent to Sentry");
 } catch (error) {
-    console.log("Caught an error in AboutPage.vue:", error);
+    console.log("console.log Caught an error in AboutPage.vue:", error);
 }
 
 try {
