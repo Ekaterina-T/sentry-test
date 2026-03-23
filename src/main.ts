@@ -31,6 +31,11 @@ Sentry.init({
   enableLogs: true
 });
 
+Sentry.getGlobalScope().setAttributes({
+  service: "to-do-list-app",
+});
+
+
 
 app.use(pinia)
 app.use(router)

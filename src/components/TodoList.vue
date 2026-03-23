@@ -56,6 +56,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useTodoStore } from '../stores/useTodoStore'
+import * as Sentry from '@sentry/vue'
+
+Sentry.logger.info("List created", { orderId: "order_456" });
 
 const todoStore = useTodoStore()
 const newTodo = ref<string>('')
@@ -65,7 +68,10 @@ const addTodo = (): void => {
   if (text) {
     todoStore.addTodo(text)
     newTodo.value = ''
+
+    Sentry.logger.info("New Item Added", { orderId: "order_456" });
   } else {
+    Sentry.logger.error("Todo text cannot be empty", { orderId: "order_456" });
     throw new Error('Todo text cannot be empty')
   }
 }
