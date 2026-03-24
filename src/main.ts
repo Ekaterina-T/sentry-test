@@ -20,7 +20,7 @@ const integrations =Sentry.getDefaultIntegrations({}).filter(
 );
 
 const client = new Sentry.BrowserClient({
-  dsn: import.meta.env.VITE_SENTRY_DSN,
+  dsn: 'https://6d11de15dbfe353a7da26f0f7d66e5a5@o4511089344380928.ingest.de.sentry.io/4511098687062096',
   sendDefaultPii: false,
   transport: Sentry.makeFetchTransport,
   stackParser: Sentry.defaultStackParser,
