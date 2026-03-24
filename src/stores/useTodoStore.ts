@@ -35,7 +35,7 @@ export const useTodoStore = defineStore('todo', () => {
         completed: false
       })
     } else {
-      throw new Error('Todo text cannot be empty')
+      throw new Error('Todo text cannot be empty not catched - store');
     }
   }
 
