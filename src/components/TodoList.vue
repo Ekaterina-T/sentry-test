@@ -68,7 +68,7 @@ onMounted(() => {
 });
 
 onErrorCaptured((err, instance, info) => {
-  console.log("onErrorCaptured caught an error:", err, info);
+  console.log("onErrorCaptured caught an error:", err, info, instance);
   if (err.message === 'All bad') {
     console.log('Suppressing error:', err.message)
     return false
