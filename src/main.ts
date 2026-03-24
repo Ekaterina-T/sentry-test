@@ -19,8 +19,8 @@ const integrations =Sentry.getDefaultIntegrations({}).filter(
   },
 );
 
-const dns2 = 'https://11c23b8680c61febce852f431db4491a@o4511089344380928.ingest.de.sentry.io/4511095827791952'
-const dns3 = 'https://8aa2640f58c8a090d64923d310ab647c@o4511089344380928.ingest.de.sentry.io/4511098540130384'
+// const dns2 = 'https://11c23b8680c61febce852f431db4491a@o4511089344380928.ingest.de.sentry.io/4511095827791952'
+// const dns3 = 'https://8aa2640f58c8a090d64923d310ab647c@o4511089344380928.ingest.de.sentry.io/4511098540130384'
 const dns4 = 'https://6d11de15dbfe353a7da26f0f7d66e5a5@o4511089344380928.ingest.de.sentry.io/4511098687062096'
 const dns5 = 'https://8af89f614c7a0868add605b116baabbe@o4511089344380928.ingest.de.sentry.io/4511099137097808'
 
