@@ -61,32 +61,32 @@ const client2 = new Sentry.BrowserClient({
 });
 client2.init(); // initializing has to be done after setting the client on the scope
 
-client.captureMessage("Test message from client 1");
-client2.captureMessage("Test message from client 2");
+client.captureMessage("Test message from client 4");
+client2.captureMessage("Test message from client 5");
 
 export {client, scope};
 
-Sentry.init({
-  app,
-  dsn: dns3,
-  sendDefaultPii: false,
-  integrations: [
-    Sentry.browserTracingIntegration({ router }),
-    Sentry.replayIntegration(),
-    Sentry.consoleLoggingIntegration({ levels: ['error', 'warn'] }),
-  ],
-  tracesSampleRate: 1.0,
-  // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
-//   tracePropagationTargets: ["localhost", /^https:\/\/yourserver\.io\/api/],
-  replaysSessionSampleRate: 0.1,
-  replaysOnErrorSampleRate: 1.0,
-  enableLogs: true,
-  beforeSend(event) {
-    console.log("Event captured by Sentry:", event);
-    event.exception
-    return event;
-  }
-});
+// Sentry.init({
+//   app,
+//   dsn: dns3,
+//   sendDefaultPii: false,
+//   integrations: [
+//     Sentry.browserTracingIntegration({ router }),
+//     Sentry.replayIntegration(),
+//     Sentry.consoleLoggingIntegration({ levels: ['error', 'warn'] }),
+//   ],
+//   tracesSampleRate: 1.0,
+//   // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
+// //   tracePropagationTargets: ["localhost", /^https:\/\/yourserver\.io\/api/],
+//   replaysSessionSampleRate: 0.1,
+//   replaysOnErrorSampleRate: 1.0,
+//   enableLogs: true,
+//   beforeSend(event) {
+//     console.log("Event captured by Sentry:", event);
+//     event.exception
+//     return event;
+//   }
+// });
 
 // console.log("Sentry initialized:", sentryInit)
 
