@@ -68,7 +68,7 @@ scope2.setUser({ id: "sdfsdf", email: "", username: "test_user2" });
 scope.captureMessage("Test message from client 4");
 scope2.captureMessage("Test message from client 5");
 
-export {client, scope};
+export {client, scope, client2, scope2};
 
 // Sentry.init({
 //   app,
