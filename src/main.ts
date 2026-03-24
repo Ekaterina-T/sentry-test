@@ -13,7 +13,7 @@ pinia.use(createSentryPiniaPlugin());
 // filter integrations that use the global variable
 const integrations =Sentry.getDefaultIntegrations({}).filter(
   (defaultIntegration) => {
-    return !["BrowserApiErrors", "Breadcrumbs", "GlobalHandlers"].includes(
+    return true || !["BrowserApiErrors", "Breadcrumbs", "GlobalHandlers"].includes(
       defaultIntegration.name,
     );
   },
