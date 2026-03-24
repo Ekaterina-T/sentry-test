@@ -45,7 +45,7 @@ client.init(); // initializing has to be done after setting the client on the sc
 
 
 const client2 = new Sentry.BrowserClient({
-  dsn: 'https://6d11de15dbfe353a7da26f0f7d66e5a5@o4511089344380928.ingest.de.sentry.io/4511098687062096',
+  dsn: 'https://6d11de15dbfe353a7da26f0f7d66e5a5@o4511089344380928.ingest.de.sentry.io/4511099137097808',
   sendDefaultPii: false,
   transport: Sentry.makeFetchTransport,
   stackParser: Sentry.defaultStackParser,
