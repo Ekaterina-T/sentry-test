@@ -24,12 +24,14 @@ const sentryInit = Sentry.init({
 //   tracePropagationTargets: ["localhost", /^https:\/\/yourserver\.io\/api/],
   replaysSessionSampleRate: 0.1,
   replaysOnErrorSampleRate: 1.0,
-  enableLogs: true
+  enableLogs: true,
+  beforeSend(event) {
+    console.log("Event captured by Sentry:", event);
+    return event;
+  }
 });
 
-Sentry.getGlobalScope().setAttributes({
-  service: "et-to-do-list-app",
-});
+Sentry.
 
 console.log("Sentry initialized:", sentryInit)
 
