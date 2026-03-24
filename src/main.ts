@@ -19,13 +19,13 @@ const integrations =Sentry.getDefaultIntegrations({}).filter(
   },
 );
 
-// 2: https://11c23b8680c61febce852f431db4491a@o4511089344380928.ingest.de.sentry.io/4511095827791952
-// 3: https://8aa2640f58c8a090d64923d310ab647c@o4511089344380928.ingest.de.sentry.io/4511098540130384
-// 4: https://6d11de15dbfe353a7da26f0f7d66e5a5@o4511089344380928.ingest.de.sentry.io/4511098687062096
-// 5: https://8af89f614c7a0868add605b116baabbe@o4511089344380928.ingest.de.sentry.io/4511099137097808
+const dns2 = 'https://11c23b8680c61febce852f431db4491a@o4511089344380928.ingest.de.sentry.io/4511095827791952'
+const dns3 = 'https://8aa2640f58c8a090d64923d310ab647c@o4511089344380928.ingest.de.sentry.io/4511098540130384'
+const dns4 = 'https://6d11de15dbfe353a7da26f0f7d66e5a5@o4511089344380928.ingest.de.sentry.io/4511098687062096'
+const dns5 = 'https://8af89f614c7a0868add605b116baabbe@o4511089344380928.ingest.de.sentry.io/4511099137097808'
 
 const client = new Sentry.BrowserClient({
-  dsn: 'https://6d11de15dbfe353a7da26f0f7d66e5a5@o4511089344380928.ingest.de.sentry.io/4511098687062096',
+  dsn: dns4,
   sendDefaultPii: false,
   transport: Sentry.makeFetchTransport,
   stackParser: Sentry.defaultStackParser,
@@ -45,7 +45,7 @@ client.init(); // initializing has to be done after setting the client on the sc
 
 
 const client2 = new Sentry.BrowserClient({
-  dsn: 'https://6d11de15dbfe353a7da26f0f7d66e5a5@o4511089344380928.ingest.de.sentry.io/4511099137097808',
+  dsn: dns5,
   sendDefaultPii: false,
   transport: Sentry.makeFetchTransport,
   stackParser: Sentry.defaultStackParser,
@@ -68,7 +68,7 @@ export {client, scope};
 
 Sentry.init({
   app,
-  dsn: 'https://8aa2640f58c8a090d64923d310ab647c@o4511089344380928.ingest.de.sentry.io/4511098540130384',
+  dsn: dns3,
   sendDefaultPii: false,
   integrations: [
     Sentry.browserTracingIntegration({ router }),
