@@ -40,27 +40,27 @@ client.init(); // initializing has to be done after setting the client on the sc
 
 export {client, scope};
 
-// const sentryInit = SentryBrowser.init({
-//   app,
-//   dsn: import.meta.env.VITE_SENTRY_DSN,
-//   sendDefaultPii: false,
-//   integrations: [
-//     Sentry.browserTracingIntegration({ router }),
-//     Sentry.replayIntegration(),
-//     Sentry.consoleLoggingIntegration({ levels: ['error', 'warn'] }),
-//   ],
-//   tracesSampleRate: 1.0,
-//   // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
-// //   tracePropagationTargets: ["localhost", /^https:\/\/yourserver\.io\/api/],
-//   replaysSessionSampleRate: 0.1,
-//   replaysOnErrorSampleRate: 1.0,
-//   enableLogs: true,
-//   beforeSend(event) {
-//     console.log("Event captured by Sentry:", event);
-//     event.exception
-//     return event;
-//   }
-// });
+Sentry.init({
+  app,
+  dsn: 'https://8aa2640f58c8a090d64923d310ab647c@o4511089344380928.ingest.de.sentry.io/4511098540130384',
+  sendDefaultPii: false,
+  integrations: [
+    Sentry.browserTracingIntegration({ router }),
+    Sentry.replayIntegration(),
+    Sentry.consoleLoggingIntegration({ levels: ['error', 'warn'] }),
+  ],
+  tracesSampleRate: 1.0,
+  // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
+//   tracePropagationTargets: ["localhost", /^https:\/\/yourserver\.io\/api/],
+  replaysSessionSampleRate: 0.1,
+  replaysOnErrorSampleRate: 1.0,
+  enableLogs: true,
+  beforeSend(event) {
+    console.log("Event captured by Sentry:", event);
+    event.exception
+    return event;
+  }
+});
 
 // console.log("Sentry initialized:", sentryInit)
 
