@@ -41,6 +41,7 @@ const client = new Sentry.BrowserClient({
 });
 const scope = new Sentry.Scope();
 scope.setClient(client);
+scope.setUser({ id: "12345", email: "", username: "test_user" });
 client.init(); // initializing has to be done after setting the client on the scope
 
 
@@ -60,9 +61,12 @@ const client2 = new Sentry.BrowserClient({
   }
 });
 client2.init(); // initializing has to be done after setting the client on the scope
+const scope2 = new Sentry.Scope();
+scope2.setClient(client2);
+scope2.setUser({ id: "sdfsdf", email: "", username: "test_user2" });
 
-client.captureMessage("Test message from client 4");
-client2.captureMessage("Test message from client 5");
+scope.captureMessage("Test message from client 4");
+scope2.captureMessage("Test message from client 5");
 
 export {client, scope};
 
