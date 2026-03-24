@@ -54,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onErrorCaptured  } from 'vue'
 import { useTodoStore } from '../stores/useTodoStore'
 // import * as Sentry from '@sentry/vue'
 
@@ -67,11 +67,21 @@ onMounted(() => {
   console.log("Sentry DSN configured:", !!import.meta.env.VITE_SENTRY_DSN);
 });
 
+onErrorCaptured((err, instance, info) => {
+  console.log("onErrorCaptured caught an error:", err, info);
+  if (err.message === 'All bad') {
+    console.log('Suppressing error:', err.message)
+    return false
+  }
+  return true
+})
+
 const todoStore = useTodoStore()
 const newTodo = ref<string>('')
+throw new Error('All bad')
 
 const addTodo = (): void => {
-    throw new Error('Not catched error: Todo text ')
+    throw new Error('Not catched error: Todo text - yep')
   const text = newTodo.value.trim()
   if (text) {
     todoStore.addTodo(text)
