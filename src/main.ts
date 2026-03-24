@@ -11,9 +11,9 @@ const pinia = createPinia()
 pinia.use(createSentryPiniaPlugin());
 
 // filter integrations that use the global variable
-const integrations =Sentry.getDefaultIntegrations({}).filter(
+const integrations = Sentry.getDefaultIntegrations({}).filter(
   (defaultIntegration) => {
-    return true || !["BrowserApiErrors", "Breadcrumbs", "GlobalHandlers"].includes(
+    return !["BrowserApiErrors", "Breadcrumbs", "GlobalHandlers"].includes(
       defaultIntegration.name,
     );
   },
@@ -87,7 +87,6 @@ Sentry.init({
   enableLogs: true,
   beforeSend(event) {
     console.log("Event captured by Sentry:", event);
-    event.exception
     return event;
   }
 });
