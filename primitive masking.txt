@@ -1,0 +1,126 @@
+type JsonValue =
+  | string
+  | number
+  | boolean
+  | null
+  | JsonValue[]
+  | { [key: string]: JsonValue };
+
+function maskSensitiveData<T extends JsonValue>(input: T): T {
+  if (typeof input === 'string') {
+    return maskString(input) as T;
+  }
+
+  if (Array.isArray(input)) {
+    return input.map((item) => maskSensitiveData(item)) as T;
+  }
+
+  if (input && typeof input === 'object') {
+    const result: Record<string, JsonValue> = {};
+
+    for (const [key, value] of Object.entries(input)) {
+      result[key] = maskSensitiveData(value as JsonValue);
+    }
+
+    return result as T;
+  }
+
+  return input;
+}
+
+function maskString(value: string): string {
+  let result = value;
+
+  const replacers: Array<[RegExp, (match: string) => string]> = [
+    // Emails
+    [
+      /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi,
+      (match) => maskEmail(match),
+    ],
+
+    // JWT
+    [
+      /\beyJ[A-Za-z0-9_-]+\.[A-Za-z0-9._-]+\.[A-Za-z0-9._-]+\b/g,
+      () => '***JWT***',
+    ],
+
+    // Bearer token
+    [
+      /\bBearer\s+([A-Za-z0-9\-._~+/]+=*)\b/gi,
+      () => 'Bearer ***',
+    ],
+
+    // Common key=value secrets
+    [
+      /\b(access_token|refresh_token|id_token|api_key|apikey|secret|client_secret|password|passwd|token)\s*[:=]\s*["']?([A-Za-z0-9\-._~+/=]{6,})["']?/gi,
+      (match) => {
+        return match.replace(
+          /([:=]\s*["']?)([A-Za-z0-9\-._~+/=]{6,})(["']?)/i,
+          '$1***$3'
+        );
+      },
+    ],
+
+    // Authorization header-like values without Bearer
+    [
+      /\b(authorization)\s*[:=]\s*["']?([A-Za-z0-9\-._~+/=]{6,})["']?/gi,
+      (match) => {
+        return match.replace(
+          /([:=]\s*["']?)([A-Za-z0-9\-._~+/=]{6,})(["']?)/i,
+          '$1***$3'
+        );
+      },
+    ],
+
+    // Long hex strings
+    [
+      /\b[a-f0-9]{32,}\b/gi,
+      () => '***HEX***',
+    ],
+
+    // URL query secrets
+    [
+      /([?&](?:token|access_token|refresh_token|id_token|api_key|apikey|secret|client_secret|password)=)([^&]+)/gi,
+      (_, prefix) => `${prefix}***`,
+    ],
+
+    // Generic long token-like strings
+    [
+      /\b[A-Za-z0-9_\-]{24,}\b/g,
+      (match) => maybeMaskGenericToken(match),
+    ],
+  ];
+
+  for (const [regex, replacer] of replacers) {
+    result = result.replace(regex, replacer as any);
+  }
+
+  return result;
+}
+
+function maskEmail(email: string): string {
+  const [local, domain] = email.split('@');
+  if (!local || !domain) return '***';
+
+  const maskedLocal =
+    local.length <= 2
+      ? '*'.repeat(local.length)
+      : `${local[0]}${'*'.repeat(Math.max(local.length - 2, 1))}${local[local.length - 1]}`;
+
+  return `${maskedLocal}@${domain}`;
+}
+
+function maybeMaskGenericToken(value: string): string {
+  // Avoid masking normal words / filenames too aggressively
+  const hasLower = /[a-z]/.test(value);
+  const hasUpper = /[A-Z]/.test(value);
+  const hasDigit = /\d/.test(value);
+  const hasSpecialish = /[_-]/.test(value);
+
+  const looksLikeSecret =
+    (hasLower && hasUpper && hasDigit) ||
+    (hasDigit && hasSpecialish) ||
+    value.length >= 32;
+
+  return looksLikeSecret ? '***TOKEN***' : value;
+}

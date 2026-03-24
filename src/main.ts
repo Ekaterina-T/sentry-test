@@ -10,28 +10,59 @@ const app = createApp(App)
 const pinia = createPinia()
 pinia.use(createSentryPiniaPlugin());
 
-const sentryInit = Sentry.init({
-  app,
+// filter integrations that use the global variable
+const integrations =Sentry.getDefaultIntegrations({}).filter(
+  (defaultIntegration) => {
+    return !["BrowserApiErrors", "Breadcrumbs", "GlobalHandlers"].includes(
+      defaultIntegration.name,
+    );
+  },
+);
+
+const client = new Sentry.BrowserClient({
   dsn: import.meta.env.VITE_SENTRY_DSN,
   sendDefaultPii: false,
-  integrations: [
-    Sentry.browserTracingIntegration({ router }),
-    Sentry.replayIntegration(),
-    Sentry.consoleLoggingIntegration({ levels: ['error', 'warn'] }),
-  ],
-  tracesSampleRate: 1.0,
-  // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
-//   tracePropagationTargets: ["localhost", /^https:\/\/yourserver\.io\/api/],
+  transport: Sentry.makeFetchTransport,
+  stackParser: Sentry.defaultStackParser,
+  integrations: integrations,
   replaysSessionSampleRate: 0.1,
   replaysOnErrorSampleRate: 1.0,
   enableLogs: true,
   beforeSend(event) {
     console.log("Event captured by Sentry:", event);
+    event.exception
     return event;
   }
 });
+const scope = new Sentry.Scope();
+scope.setClient(client);
+client.init(); // initializing has to be done after setting the client on the scope
 
-console.log("Sentry initialized:", sentryInit)
+export {client, scope};
+
+// const sentryInit = SentryBrowser.init({
+//   app,
+//   dsn: import.meta.env.VITE_SENTRY_DSN,
+//   sendDefaultPii: false,
+//   integrations: [
+//     Sentry.browserTracingIntegration({ router }),
+//     Sentry.replayIntegration(),
+//     Sentry.consoleLoggingIntegration({ levels: ['error', 'warn'] }),
+//   ],
+//   tracesSampleRate: 1.0,
+//   // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
+// //   tracePropagationTargets: ["localhost", /^https:\/\/yourserver\.io\/api/],
+//   replaysSessionSampleRate: 0.1,
+//   replaysOnErrorSampleRate: 1.0,
+//   enableLogs: true,
+//   beforeSend(event) {
+//     console.log("Event captured by Sentry:", event);
+//     event.exception
+//     return event;
+//   }
+// });
+
+// console.log("Sentry initialized:", sentryInit)
 
 
 app.use(pinia)

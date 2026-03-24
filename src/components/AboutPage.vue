@@ -28,7 +28,8 @@
 </template>
 
 <script setup lang="ts">
-import * as Sentry from '@sentry/vue'
+// import * as Sentry from '@sentry/vue'
+import {scope, client} from '../main'
 
 try {
     throw new Error("Test catched error in AboutPage.vue - not sent to Sentry");
@@ -37,9 +38,15 @@ try {
 }
 
 try {
-    throw new Error("Test catched error in AboutPage.vue - sent to Sentry");
+    throw new Error("Test catched error in AboutPage.vue - sent to Sentry with scope.captureException");
 } catch (error) {
-    Sentry.captureException(error);
+    scope.captureException(error);
+}
+
+try {
+    throw new Error("Test catched error in AboutPage.vue - sent to Sentry with client.captureException");
+} catch (error) {
+    client.captureException(error);
 }
 </script>
 
