@@ -78,7 +78,6 @@ onErrorCaptured((err, instance, info) => {
 
 const todoStore = useTodoStore()
 const newTodo = ref<string>('')
-throw new Error('All bad')
 
 const addTodo = (): void => {
     throw new Error('Not catched error: Todo text - yep')
@@ -91,6 +90,7 @@ const addTodo = (): void => {
     console.warn("console.warn warn: A new item was added to the list");
     console.error("console.error error: This is a console error test for adding a new item");
   } else {
+throw new Error('All bad')
     // // Sentry.logger.error("Logger error: Todo text cannot be empty", { orderId: "order_456" });
     // throw new Error('Not catched error: Todo text cannot be empty')
   }
