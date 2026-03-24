@@ -14,7 +14,6 @@ import {scope2, client2} from './main'
 
 client2.captureMessage("App Test message from client 4");
 scope2.captureMessage("App Test message from client 5");
-throw new Error("Unhandled 1");
 </script>
 
 <style>
