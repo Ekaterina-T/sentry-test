@@ -90,6 +90,7 @@ Sentry.init({
     return event;
   }
 });
+Sentry.setUser({ id: "globalUser", email: "", username: "globalUser" });
 
 // console.log("Sentry initialized:", sentryInit)
 
